@@ -6,14 +6,15 @@ CREATE TABLE `Products` (
   `isAvaible` bool
 );
 
-CREATE TABLE `HistoryOfPurchase` (
+CREATE TABLE `HistoryOfPurchases` (
   `order_id` varchar(255),
   `product_id` varchar(255),
   `title` varchar(255),
   `price` float,
   `quantity` int,
+  `timeOfPurchase` date,
   PRIMARY KEY (`order_id`, `product_id`)
 );
 
-ALTER TABLE `HistoryOfPurchase` ADD FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`);
+ALTER TABLE `HistoryOfPurchases` ADD FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`);
 
