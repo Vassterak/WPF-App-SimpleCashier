@@ -23,6 +23,11 @@ namespace pokladnaInitial
     {
         bool readNewBarcode = false;
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void ScreenKeyDown(object sender, KeyEventArgs e)
         {
             string input = null;

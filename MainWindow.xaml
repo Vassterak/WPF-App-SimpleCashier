@@ -6,7 +6,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown">
+        Title="MainWindow" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown" Loaded="Window_Loaded">
     <Window.Resources>
         <System:Double x:Key="FontSize1">18</System:Double>
 
