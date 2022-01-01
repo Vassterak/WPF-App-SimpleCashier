@@ -127,6 +127,22 @@ namespace pokladnaInitial
             boughtItems.Items.Insert(0,new Product() { Barcode = item, Name = "Jablko jarní",Count = 1, Price = 10f });
         }
 
+        private void BoughtProductsList(object sender, SizeChangedEventArgs e)
+        {
+            GridView gView = boughtItems.View as GridView; //get ListView from XAML
+
+            var workingWidth = boughtItems.ActualWidth - SystemParameters.VerticalScrollBarWidth; //get width of ListView element + take into account vertical scrollbar
+            var col1 = 0.40; // 0.40 -> 40%
+            var col2 = 0.10;
+            var col3 = 0.20;
+            var col4 = 0.30;
+
+            gView.Columns[0].Width = workingWidth * col1;
+            gView.Columns[1].Width = workingWidth * col2;
+            gView.Columns[2].Width = workingWidth * col3;
+            gView.Columns[3].Width = workingWidth * col4;
+        }
+
         private int GetASCII(KeyEventArgs e)
         {
             char parsedCharacter = ' ';

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown">
-    <Grid>
+    <Grid SizeChanged="BoughtProductsList">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -36,7 +36,7 @@
                     <GridViewColumn Header="Položka" Width="200" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Počet" Width="40" DisplayMemberBinding="{Binding Count}"/>
                     <GridViewColumn Header="Cena" Width="75" DisplayMemberBinding="{Binding Price}" />
-                    <GridViewColumn Header="Kód" Width="{Binding ElementName=helperField, Path=ActualWidth}" DisplayMemberBinding="{Binding Barcode}" />
+                    <GridViewColumn Header="Kód" Width="200" DisplayMemberBinding="{Binding Barcode}" />
                 </GridView>
             </ListView.View>
         </ListView>
