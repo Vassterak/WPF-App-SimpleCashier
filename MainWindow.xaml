@@ -117,7 +117,7 @@
         <Button Focusable="False" x:Name="bt_PurchaseHistory" Style="{DynamicResource RoundedCorners}" Grid.Column="7" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Historie" Background="Orange" Click="bt_PurchaseHistory_Click"></Button>
 
         <!--MAIN LIST VIEW - list of items currently being purchased-->
-        <ListView Margin="5" x:Name="boughtItems" ItemsSource="{Binding boughtProducts}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
+        <ListView Margin="5" x:Name="boughtItems" ItemsSource="{Binding boughtProducts}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="8" Grid.ColumnSpan="5">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Kód" Width="200" DisplayMemberBinding="{Binding Barcode}" />
@@ -130,10 +130,11 @@
         </ListView>
 
         <!--Debug-->
-        <Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Height="30" Content="Čistý výstup z tečky/klávesnice" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
+        <!--<Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Height="30" Content="Čistý výstup z tečky/klávesnice" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>-->
         <Label Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Height="30" Content="Vyparsovaný text z klávesnice" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
-        <Label x:Name="textZCtecky" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Height="30" Background="LightGray" VerticalAlignment="Center"></Label>
+        <!--<Label x:Name="textZCtecky" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Height="30" Background="LightGray" VerticalAlignment="Center"></Label>-->
         <Label x:Name="textCleared" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2"  Height="30" VerticalAlignment="Center" Background="LightGray"></Label>
-        <TextBox Grid.Column="7" HorizontalAlignment="Left" Margin="264,18,0,0" Grid.Row="3" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+
+        <Label x:Name="howMuchFromCustomer" Visibility="Hidden" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="8" FontSize="25" Content="Zadej částku vybranou od zákazníka" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
     </Grid>
 </Window>

@@ -23,8 +23,8 @@ namespace pokladnaInitial
     public partial class MainWindow : Window
     {
         List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
-        bool readNewBarcode = false;
-        float totalPriceOfPurchase = 0f;
+        bool readNewBarcode = false, isInPuchasedMode = false;
+        string rawDataInput = "";
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -39,7 +39,7 @@ namespace pokladnaInitial
             if (readNewBarcode)
             {
                 textCleared.Content = "";
-                textZCtecky.Content = "";
+                rawDataInput = "";
                 readNewBarcode = false;
             }
 
@@ -47,7 +47,7 @@ namespace pokladnaInitial
             {
                 case Key.Enter:
                     readNewBarcode = true;
-                    if (textCleared.Content.ToString().Length <= 3) //if user input is 3char or shorter it will assume you are inputing the quantity of purchased item
+                    if (textCleared.Content.ToString().Length <= 3 && !isInPuchasedMode) //if user input is 3char or shorter it will assume you are inputing the quantity of purchased item
                     {
                         try
                         {
@@ -61,13 +61,27 @@ namespace pokladnaInitial
                     }
                     else
                     {
-                        AddItemToBoughtList(textCleared.Content.ToString());
-                        //AddItemToBoughtList(textCleared.Content.ToString());
+                        if (isInPuchasedMode)
+                        {
+                            try
+                            {
+                                System.Windows.MessageBox.Show($"Zákazníkovy je potřeba vrátit z částky {float.Parse(textCleared.Content.ToString())} Kč -> {float.Parse(textCleared.Content.ToString()) - GetCompletePrice()} Kč.");
+
+                            }
+                            catch (Exception)
+                            {
+                                System.Windows.MessageBox.Show("Zadali jste špatné hodnoty pro výpočet");
+                            }
+                        }
+                        else
+                        {
+                            AddItemToBoughtList(textCleared.Content.ToString());
+                        }
                     }
                     break;
 
                 case Key.Space:
-
+                    //Not used for now
                     break;
                 
                 default:
@@ -89,9 +103,7 @@ namespace pokladnaInitial
                     }
                     break;
             }
-
             //Debug
-            textZCtecky.Content += e.Key.ToString();
             textCleared.Content += input;
 
         }
@@ -172,21 +184,18 @@ namespace pokladnaInitial
             boughtItems.Items.Refresh();
         }
 
-        private void Bt_MinusOneQuantity_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void bt_BuyOrder_Click(object sender, RoutedEventArgs e)
         {
+            isInPuchasedMode = true;
+            howMuchFromCustomer.Visibility = Visibility.Visible;
 
         }
 
         private void bt_CancelOrder_Click(object sender, RoutedEventArgs e)
         {
             boughtProducts.Clear();
-            boughtItems.Items.Clear();
             boughtItems.Items.Refresh();
+            isInPuchasedMode = false;
         }
 
         //---------------------------------------------------Events-----------------------------
