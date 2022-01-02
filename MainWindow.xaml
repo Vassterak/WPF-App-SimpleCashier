@@ -90,22 +90,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--Enter barcode by hand-->
-        <Label Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Zada ručně kód:"></Label>
-        <TextBox x:Name="tb_HandEnteredBarCode" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="300" HorizontalAlignment="Center" FontSize="{StaticResource FontSize1}"></TextBox>
-
         <!--Current item-->
-        <Label Grid.Column="5" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Aktuální položka:"></Label>
-        <Label Grid.Column="6" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" FontWeight="Bold" Content="[Název položky]"></Label>
+        <Label Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Aktuální položka:"></Label>
+        <Label Grid.Column="6" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" FontWeight="Bold" Content="[Název položky]"></Label>
 
         <!--Left items in warehouse-->
-        <Label Grid.Column="5" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Zbývá kusů na skladě:"></Label>
-        <Label Grid.Column="7" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" FontWeight="Bold" Content="[20 ks]"></Label>
+        <Label Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Zbývá kusů na skladě:"></Label>
+        <Label Grid.Column="7" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" FontWeight="Bold" Content="[20 ks]"></Label>
 
         <!--Actions for current item-->
-        <Label Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Akce:"></Label>
-        <Button Focusable="False" x:Name="bt_RemoveLatestItem"  Grid.Column="6" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
-        <Button Focusable="False" x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>
+        <Label Grid.Column="5" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Akce:"></Label>
+        <Button Focusable="False" x:Name="bt_RemoveLatestItem"  Grid.Column="6" Grid.Row="3" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
+        <Button Focusable="False" x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="3" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>
 
         <!--Total price-->
         <Label Grid.Column="5" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Cena zboží celkem:"></Label>
@@ -121,7 +117,7 @@
         <Button Focusable="False" x:Name="bt_PurchaseHistory" Style="{DynamicResource RoundedCorners}" Grid.Column="7" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Historie" Background="Orange" Click="bt_PurchaseHistory_Click"></Button>
 
         <!--MAIN LIST VIEW - list of items currently being purchased-->
-        <ListView Margin="5" x:Name="boughtItems" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
+        <ListView Margin="5" x:Name="boughtItems" ItemsSource="{Binding boughtProducts}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Kód" Width="200" DisplayMemberBinding="{Binding Barcode}" />

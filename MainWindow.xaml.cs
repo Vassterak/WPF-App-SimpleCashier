@@ -22,10 +22,9 @@ namespace pokladnaInitial
 {
     public partial class MainWindow : Window
     {
-        bool readNewBarcode = false, helpBool = false;
+        List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
+        bool readNewBarcode = false;
         float totalPrice = 0f;
-        string currentBarcode = "";
-        int currentQuantity = 0;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -52,29 +51,17 @@ namespace pokladnaInitial
                     {
                         try
                         {
-                            if (currentBarcode == "")
-                                throw new Exception();
-                            else
-                            {
-                                currentQuantity = int.Parse(textCleared.Content.ToString());
-                                AddItemToBoughtList(currentBarcode, currentQuantity);
-                                currentQuantity = 0; currentBarcode = "";
-                            }
+                            EditQuantity(int.Parse(textCleared.Content.ToString()));
                         }
                         catch (Exception)
                         {
                             System.Windows.MessageBox.Show("Vstup nebyl rozpoznán.");
                             textCleared.Content = "";
-                            currentQuantity = 0;
                         }
                     }
                     else
                     {
-                        if (currentBarcode != "")
-                            AddItemToBoughtList(currentBarcode, currentQuantity);
-
-                        currentQuantity = 1;
-                        currentBarcode = textCleared.Content.ToString();
+                        AddItemToBoughtList(textCleared.Content.ToString());
                         //AddItemToBoughtList(textCleared.Content.ToString());
                     }
                     break;
@@ -109,7 +96,7 @@ namespace pokladnaInitial
 
         }
 
-        private void AddItemToBoughtList(string barcode, int itemQuantity)
+        private void AddItemToBoughtList(string barcode)
         {
             int item = 0;
             try
@@ -119,15 +106,29 @@ namespace pokladnaInitial
                 SQLiteDataReader reader = DatabaseConnection.command.ExecuteReader();
                 while (reader.Read())
                 {
-                    boughtItems.Items.Insert(0, new BoughtProduct { Barcode = reader.GetString(0), Name = reader.GetString(1), Price = reader.GetFloat(2), Quantity = itemQuantity, TotalPrice = itemQuantity * reader.GetFloat(2)}); //add to list
+                    boughtProducts.Insert(0, new BoughtProduct { Barcode = reader.GetString(0), Name = reader.GetString(1), Price = reader.GetFloat(2), Quantity = 1, TotalPrice = 1 * reader.GetFloat(2)}); //add to list
+                    boughtItems.ItemsSource = boughtProducts;
                     item++;
                 }
                 if (item <= 0)
                     throw new Exception();
+                boughtItems.Items.Refresh();
             }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show($"Poslední naskenované zboží se nenachází v databázi!\nKód: "+ barcode);
+            }
+        }
+
+        private void EditQuantity(int quantity)
+        {
+            if (quantity >= 1)
+            {
+                //edit latest object
+                boughtProducts[0].Quantity = quantity;
+                boughtProducts[0].TotalPrice = quantity * boughtProducts[0].Price;
+                boughtItems.ItemsSource = boughtProducts;
+                boughtItems.Items.Refresh();
             }
         }
 
