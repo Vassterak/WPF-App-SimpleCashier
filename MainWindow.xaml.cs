@@ -84,15 +84,13 @@ namespace pokladnaInitial
             GridView gView = boughtItems.View as GridView; //get ListView from XAML
 
             var workingWidth = boughtItems.ActualWidth - SystemParameters.VerticalScrollBarWidth; //get width of ListView element + take into account vertical scrollbar
-            var col1 = 0.40; // 0.40 -> 40%
-            var col2 = 0.10;
-            var col3 = 0.20;
-            var col4 = 0.30;
 
-            gView.Columns[0].Width = workingWidth * col1;
-            gView.Columns[1].Width = workingWidth * col2;
-            gView.Columns[2].Width = workingWidth * col3;
-            gView.Columns[3].Width = workingWidth * col4;
+            gView.Columns[0].Width = workingWidth * 0.25; //barcode 0,25 -> 25% of screen size
+            gView.Columns[1].Width = workingWidth * 0.35; //name
+            gView.Columns[2].Width = workingWidth * 0.10; //count
+            gView.Columns[3].Width = workingWidth * 0.15; //price
+            gView.Columns[4].Width = workingWidth * 0.15; //price * count (price total per item type)
+
         }
 
         private void bt_WarehouseManagement_Click(object sender, RoutedEventArgs e)
@@ -143,7 +141,6 @@ namespace pokladnaInitial
                 e.Cancel = true;
 
             DatabaseConnection.m_dbConnection.Close();
-            System.Windows.Forms.MessageBox.Show("Program se ukončil");
         }
     }
 }

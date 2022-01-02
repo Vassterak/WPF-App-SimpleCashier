@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="ManageProducts" Height="450" Width="800" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged">
+        Title="Sklad" Height="600" Width="900" MinWidth="900" MinHeight="450" SizeChanged="Window_SizeChanged" Initialized="Window_Initialized" ContentRendered="Window_ContentRendered" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="73*"/>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="80*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -28,16 +30,45 @@
         </Grid.RowDefinitions>
 
         <!--Show current items in store-->
-        <ListView Margin="5" x:Name="itemsInWareHouse" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="8">
+        <ListView Margin="5,5,5,5" x:Name="itemsInWareHouse" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="7">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Barcode" Width="200" DisplayMemberBinding="{Binding Barcode}" />
                     <GridViewColumn Header="Název" Width="200" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Počet na skladě" Width="40" DisplayMemberBinding="{Binding Quantity}"/>
                     <GridViewColumn Header="Cena" Width="75" DisplayMemberBinding="{Binding Price}" />
-                    <GridViewColumn Header="Barcode" Width="200" DisplayMemberBinding="{Binding Barcode}" />
                     <GridViewColumn Header="Je prodejné?" Width="200" DisplayMemberBinding="{Binding IsAvailable}" />
                 </GridView>
             </ListView.View>
+            <Expander Height="100" Header="Expander" Width="100">
+                <Grid Background="#FFE5E5E5"/>
+            </Expander>
         </ListView>
+        <GroupBox Grid.Row="7" Grid.ColumnSpan="7" Grid.RowSpan="3" x:Name="AddNewProductBox" Header="Přidej novo položku do skladu" Margin="0,0,0,43">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="sp_barcode" Margin="5">
+                    <Label Content="Barcode" />
+                    <TextBox Text="Vlož nový barcode"/>
+                </StackPanel>
+                <StackPanel x:Name="sp_name" Margin="5">
+                    <Label Content="Název položky" />
+                    <TextBox Text="Vlož název položky"/>
+                </StackPanel>
+                <StackPanel x:Name="sp_quantity" Margin="5">
+                    <Label Content="Počet na skladě" />
+                    <TextBox Text="zade počet ks"/>
+                </StackPanel>
+                <StackPanel x:Name="sp_price" Margin="5">
+                    <Label Content="Cena za kus" />
+                    <TextBox Text="Zadej cenu" />
+                </StackPanel>
+                <StackPanel x:Name="sp_isAvailable" Margin="5">
+                    <Label Content="Je prodejné?" />
+                    <TextBox Text="ano/ne"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <Label Grid.Row="7" ></Label>
+
     </Grid>
 </Window>

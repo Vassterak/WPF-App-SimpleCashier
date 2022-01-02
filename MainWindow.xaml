@@ -6,7 +6,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown" Loaded="Window_Loaded">
+        Title="Pokladna" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown" Loaded="Window_Loaded">
     <Window.Resources>
         <System:Double x:Key="FontSize1">18</System:Double>
 
@@ -107,7 +107,6 @@
         <Button x:Name="bt_RemoveLatestItem"  Grid.Column="6" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
         <Button x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>
 
-
         <!--Total price-->
         <Label Grid.Column="5" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Cena zboží celkem:"></Label>
         <Label Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Content="[5 000,20 kč]" FontWeight="Bold"></Label>
@@ -125,14 +124,14 @@
         <ListView Margin="5" x:Name="boughtItems" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Položka" Width="200" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Počet" Width="40" DisplayMemberBinding="{Binding Count}"/>
-                    <GridViewColumn Header="Cena" Width="75" DisplayMemberBinding="{Binding Price}" />
                     <GridViewColumn Header="Kód" Width="200" DisplayMemberBinding="{Binding Barcode}" />
+                    <GridViewColumn Header="Položka" Width="200" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Počet" Width="80" DisplayMemberBinding="{Binding Quantity}"/>
+                    <GridViewColumn Header="Cena ks" Width="75" DisplayMemberBinding="{Binding Price}" />
+                    <GridViewColumn Header="Cena clk" Width="75" DisplayMemberBinding="{Binding PriceAll}" />
                 </GridView>
             </ListView.View>
         </ListView>
-
 
         <!--Debug-->
         <Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Height="30" Content="Čistý výstup z tečky/klávesnice" HorizontalAlignment="Right" VerticalAlignment="Center"></Label>
