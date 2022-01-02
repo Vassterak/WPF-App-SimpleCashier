@@ -116,11 +116,10 @@ namespace pokladnaInitial
                 {
                     //input protection against SQL injection should be implemented :) 
                     quantity = int.Parse(tb_quantity.Text);
-                    tb_price.Text = tb_price.Text.Replace(',', '.'); //because in CZ there is comma insted of dot
-                    price = float.Parse(tb_price.Text, CultureInfo.InvariantCulture); //ahh
+                    float.TryParse(tb_price.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out price); //a better fix
                     isAvailable = (comboxBox_isAvailable.Text.Trim().ToLower() == "ano") ? 1 : 0;   
-                                                                                                                                                                            //f*cking shit is now working (horrible fix)
-                    if (InsertIntoDatabase($"INSERT INTO Products (id, title, price, quantity, isAvailable) values ('{tb_barcode.Text}', '{tb_name.Text}', {price.ToString().Replace(',','.')}, {quantity}, {isAvailable})"))
+
+                    if (InsertIntoDatabase($"INSERT INTO Products (id, title, price, quantity, isAvailable) values ('{tb_barcode.Text}', '{tb_name.Text}', @price, {quantity}, {isAvailable})", price))
                         MessageBox.Show($"Položka s názvem {tb_name.Text}. Byla úspěšně přidána");
                 }
                 catch (Exception)
@@ -130,10 +129,11 @@ namespace pokladnaInitial
             }
         }
 
-        private bool InsertIntoDatabase(string sql)
+        private bool InsertIntoDatabase(string sql, float price)
         {
-            DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
-
+            DatabaseConnection.command.Parameters.AddWithValue("@price", price);
+            DatabaseConnection.command.CommandText = sql;
+            //DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection); removing teacher's bad approach
             try
             {
                 DatabaseConnection.command.ExecuteNonQuery();
