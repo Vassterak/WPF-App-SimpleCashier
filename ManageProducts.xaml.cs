@@ -24,6 +24,7 @@ namespace pokladnaInitial
     {
         double[] colSize = new double[5];
         bool isInEditMode = false;
+        Product EditSelectedItem;
 
         public ManageProducts()
         {
@@ -84,6 +85,7 @@ namespace pokladnaInitial
             bt_addNewItem.Visibility = Visibility.Visible;
             AddNewProductBox.Header = "Uprav existující položku";
             bt_action.Content = "Uložit upravení položky";
+            tb_barcode.IsReadOnly = true;
 
             isInEditMode = true;
 
@@ -96,6 +98,8 @@ namespace pokladnaInitial
             bt_addNewItem.Visibility = Visibility.Hidden;
             AddNewProductBox.Header = "Přidej novou položku do skladu";
             bt_action.Content = "Uložit novou položku";
+            tb_barcode.IsReadOnly = false;
+
 
             isInEditMode = false;
         }
@@ -105,9 +109,22 @@ namespace pokladnaInitial
             int quantity, isAvailable;
             float price;
 
-            if (isInEditMode)
+            if (isInEditMode && EditSelectedItem != null)
             {
+                try
+                {
+                    //input protection against SQL injection should be implemented :) 
+                    quantity = int.Parse(tb_quantity.Text);
+                    float.TryParse(tb_price.Text.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture, out price); //a better fix
+                    isAvailable = (comboxBox_isAvailable.Text.Trim().ToLower() == "ano") ? 1 : 0;
 
+                    if (InsertIntoDatabase($"UPDATE Products SET title = '{tb_name.Text}', price = @price, quantity = {quantity}, isAvailable = {isAvailable} WHERE id = '{tb_barcode.Text}'", price))
+                        MessageBox.Show($"Položka s názvem {tb_name.Text}. Byla úspěšně aktualizována");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show($"Došlo k chybě při pokusu o uložení nového produktu, prosím zkontrolujte si zda vaše vstupy jsou ve správném formátu.\nVstupy: {tb_barcode.Text}, {tb_name.Text}, {tb_price.Text}, {tb_quantity.Text}, {comboxBox_isAvailable.Text}");
+                }
             }
 
             else
@@ -116,7 +133,7 @@ namespace pokladnaInitial
                 {
                     //input protection against SQL injection should be implemented :) 
                     quantity = int.Parse(tb_quantity.Text);
-                    float.TryParse(tb_price.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out price); //a better fix
+                    float.TryParse(tb_price.Text.Replace(',','.'), NumberStyles.Any, CultureInfo.InvariantCulture, out price); //a better fix
                     isAvailable = (comboxBox_isAvailable.Text.Trim().ToLower() == "ano") ? 1 : 0;   
 
                     if (InsertIntoDatabase($"INSERT INTO Products (id, title, price, quantity, isAvailable) values ('{tb_barcode.Text}', '{tb_name.Text}', @price, {quantity}, {isAvailable})", price))
@@ -152,10 +169,17 @@ namespace pokladnaInitial
         {
             if (isInEditMode) //get selected item in list only when edit mode is enabled
             {
-                Product SelectedItem = (Product)itemsInWareHouse.SelectedItem;
+                EditSelectedItem = (Product)itemsInWareHouse.SelectedItem;
 
-                if (SelectedItem != null)
-                    MessageBox.Show(SelectedItem.Name);
+                if (EditSelectedItem != null)
+                {
+                    //MessageBox.Show(EditSelectedItem.Name);
+                    tb_barcode.Text = EditSelectedItem.Barcode;
+                    tb_name.Text = EditSelectedItem.Name;
+                    tb_quantity.Text = EditSelectedItem.Quantity.ToString();
+                    tb_price.Text = EditSelectedItem?.Price.ToString();
+                    comboxBox_isAvailable.SelectedIndex = (EditSelectedItem.IsAvailable == true) ? 0 : 1;
+                }
             }
         }
 
