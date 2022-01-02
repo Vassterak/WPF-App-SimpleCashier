@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace pokladnaInitial
 {
@@ -28,7 +31,7 @@ namespace pokladnaInitial
             DatabaseConnection.ConnectToDatabase();
         }
 
-        private void ScreenKeyDown(object sender, KeyEventArgs e)
+        private void ScreenKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             string input = null;
             if (readNewBarcode)
@@ -94,17 +97,20 @@ namespace pokladnaInitial
 
         private void bt_WarehouseManagement_Click(object sender, RoutedEventArgs e)
         {
-
+            ManageProducts window = new ManageProducts();
+            window.ShowDialog();
         }
 
         private void bt_Help_Click(object sender, RoutedEventArgs e)
         {
-
+            Help window = new Help();
+            window.ShowDialog();
         }
 
         private void bt_PurchaseHistory_Click(object sender, RoutedEventArgs e)
         {
-
+            PurchaseHistory window = new PurchaseHistory();
+            window.ShowDialog();
         }
         private void bt_RemoveLatestItem_Click(object sender, RoutedEventArgs e)
         {
@@ -124,6 +130,17 @@ namespace pokladnaInitial
         private void bt_CancelOrder_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            string message = "Po ukončení programu se ztratí veškerá neuložená data, chcete program vypnout?";
+            string title = "Pozor ukončení programu.";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = System.Windows.Forms.MessageBox.Show(message, title, buttons);
+
+            if (result != System.Windows.Forms.DialogResult.Yes)
+                e.Cancel = true;
         }
     }
 
