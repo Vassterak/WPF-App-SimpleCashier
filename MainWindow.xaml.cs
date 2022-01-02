@@ -67,6 +67,7 @@ namespace pokladnaInitial
                             {
                                 System.Windows.MessageBox.Show($"Zákazníkovy je potřeba vrátit z částky {float.Parse(textCleared.Content.ToString())} Kč -> {float.Parse(textCleared.Content.ToString()) - GetCompletePrice()} Kč.");
                                 UpdateQuantityInDB();
+                                CreateHistoryRecord();
                             }
                             catch (Exception)
                             {
@@ -176,8 +177,25 @@ namespace pokladnaInitial
                 DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
                 reader = DatabaseConnection.command.ExecuteReader();
             }
-
             Trace.WriteLine("Položky byli úspěšně odečteny ze skladu");
+
+        }
+
+        private void CreateHistoryRecord()
+        {
+            var sql = "";
+            SQLiteDataReader reader;
+            Guid orderID = Guid.NewGuid();
+            DateTime todayDate = DateTime.Today;
+            string today = todayDate.ToString("d");
+
+            foreach (var item in boughtProducts)
+            {
+                sql = $"INSERT INTO HistoryOfPurchases (order_id, product_id, title, price, quantity, timeOfPurchase) values ('{orderID}', '{item.Barcode}', '{item.Name}', {1}, {item.Quantity}, '{today}')";
+                DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
+                reader = DatabaseConnection.command.ExecuteReader();
+            }
+            Trace.WriteLine("Vyvořena historie nákupu");
         }
 
 

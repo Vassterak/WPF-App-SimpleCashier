@@ -66,7 +66,7 @@ namespace pokladnaInitial
             command.ExecuteNonQuery();
             Trace.WriteLine("Products table has been created");
 
-            sql = "CREATE TABLE `HistoryOfPurchases` (`order_id` varchar(255),`product_id` varchar(255),`title` varchar(255),`price` float,`quantity` int,`timeOfPurchase` date,PRIMARY KEY(`order_id`, `product_id`), FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`))";
+            sql = "CREATE TABLE `HistoryOfPurchases` (`order_id` varchar(255),`product_id` varchar(255),`title` varchar(255),`price` float,`quantity` int,`timeOfPurchase` varchar(255),PRIMARY KEY(`order_id`, `product_id`), FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`))";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
             Trace.WriteLine("HistoryOfPurchases table has been created");
@@ -77,34 +77,34 @@ namespace pokladnaInitial
             //Trace.WriteLine("Relation has been created");
         }
 
-        private static void DatabzeTest()
+        public static bool InsertIntoDatabase(string sql)
         {
-            // naplnění tabulky daty
-            sql = "insert into highscores (jmeno, skore) values ('Petříček', 3000)";
-            command = new SQLiteCommand(sql, m_dbConnection);
-            command.ExecuteNonQuery();
-            sql = "insert into highscores (jmeno, skore) values ('Janička', 6000)";
-            command = new SQLiteCommand(sql, m_dbConnection);
-            command.ExecuteNonQuery();
-            sql = "insert into highscores (jmeno, skore) values ('Já Sám ', 9009)";
-            command = new SQLiteCommand(sql, m_dbConnection);
-            command.ExecuteNonQuery();
-            Trace.WriteLine("Vložena data (Petříček-3000, Janička-6000, Já Sám-9009).");
-
-
-            // výpis dat z tabulky
-            Console.WriteLine("Výpis podle bodů:");
-            Console.WriteLine("Jméno:   \t Skóre:");
-            sql = "select * from highscores order by skore desc";
-            command = new SQLiteCommand(sql, m_dbConnection);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-                Console.WriteLine(reader["jmeno"] + " \t " + reader["skore"]);
-
-            // uzavření připojení k databázi
-            m_dbConnection.Close();
-
-            Console.ReadLine();
+            DatabaseConnection.command.CommandText = sql;
+            try
+            {
+                DatabaseConnection.command.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine("Nastala chyba při vykonávání zápisu do databáze");
+                return false;
+            }
+        }
+        public static bool InsertIntoDatabase(string sql, float price)
+        {
+            DatabaseConnection.command.Parameters.AddWithValue("@price", price);
+            DatabaseConnection.command.CommandText = sql;
+            try
+            {
+                DatabaseConnection.command.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine("Nastala chyba při vykonávání zápisu do databáze");
+                return false;
+            }
         }
     }
 }
