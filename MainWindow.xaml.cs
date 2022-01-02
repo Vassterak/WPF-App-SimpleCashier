@@ -76,7 +76,7 @@ namespace pokladnaInitial
 
         private void AddItemToBoughtList(string item)
         {
-            boughtItems.Items.Insert(0,new Product() { Barcode = item, Name = "Jablko jarní",Count = 1, Price = 10f });
+            boughtItems.Items.Insert(0,new Product() { Barcode = item, Name = "Jablko jarní",Quantity = 1, Price = 10f });
         }
 
         private void BoughtProductsList(object sender, SizeChangedEventArgs e)
@@ -141,14 +141,9 @@ namespace pokladnaInitial
 
             if (result != System.Windows.Forms.DialogResult.Yes)
                 e.Cancel = true;
-        }
-    }
 
-    public class Product
-    {
-        public string Barcode { get; set; }
-        public string Name { get; set; }
-        public float Price { get; set; }
-        public int Count { get; set; }
+            DatabaseConnection.m_dbConnection.Close();
+            System.Windows.Forms.MessageBox.Show("Program se ukončil");
+        }
     }
 }

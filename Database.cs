@@ -12,8 +12,8 @@ namespace pokladnaInitial
 {
     public static class DatabaseConnection
     {
-        static SQLiteConnection m_dbConnection;
-        static SQLiteCommand command;
+        public static SQLiteConnection m_dbConnection;
+        public static SQLiteCommand command;
         static string sql;
 
         public static void ConnectToDatabase()
@@ -55,7 +55,6 @@ namespace pokladnaInitial
             }
             catch (Exception)
             {
-                Trace.WriteLine("Se to posralo :D");
                 MessageBox.Show("Nastala neočekávaná chyba, nelze vytvořit soubor s databází zkontrolujte zda má aplikace dostatečná opraávnění"); 
             }
         }
