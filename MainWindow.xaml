@@ -104,21 +104,21 @@
 
         <!--Actions for current item-->
         <Label Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Akce:"></Label>
-        <Button x:Name="bt_RemoveLatestItem"  Grid.Column="6" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
-        <Button x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>
+        <Button Focusable="False" x:Name="bt_RemoveLatestItem"  Grid.Column="6" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
+        <Button Focusable="False" x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="4" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>
 
         <!--Total price-->
         <Label Grid.Column="5" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Cena zboží celkem:"></Label>
         <Label Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Content="[5 000,20 kč]" FontWeight="Bold"></Label>
 
         <!--Pay / Cancel - buttons-->
-        <Button x:Name="bt_BuyOrder"  Style="{DynamicResource RoundedCorners}" Grid.Column="5" Grid.ColumnSpan="2" Margin="10,0" VerticalAlignment="Center" FontSize="26" Grid.Row="6" Content="Zaplatit" Background="LightGreen" Click="bt_BuyOrder_Click"></Button>
-        <Button x:Name="bt_CancelOrder" Style="{DynamicResource RoundedCorners}" Grid.Column="7" Margin="10,0" VerticalAlignment="Center" FontSize="26" Grid.Row="6" Content="Zrušit vše" Background="OrangeRed" Click="bt_CancelOrder_Click"></Button>
+        <Button Focusable="False" x:Name="bt_BuyOrder"  Style="{DynamicResource RoundedCorners}" Grid.Column="5" Grid.ColumnSpan="2" Margin="10,0" VerticalAlignment="Center" FontSize="26" Grid.Row="6" Content="Zaplatit" Background="LightGreen" Click="bt_BuyOrder_Click"></Button>
+        <Button Focusable="False" x:Name="bt_CancelOrder" Style="{DynamicResource RoundedCorners}" Grid.Column="7" Margin="10,0" VerticalAlignment="Center" FontSize="26" Grid.Row="6" Content="Zrušit vše" Background="OrangeRed" Click="bt_CancelOrder_Click"></Button>
 
         <!--Help / Warehouse / History - buttons-->
-        <Button x:Name="bt_Help" Style="{DynamicResource RoundedCorners}" Grid.Column="5" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Pomoc" Background="Orange" Click="bt_Help_Click"></Button>
-        <Button x:Name="bt_WarehouseManagement" Style="{DynamicResource RoundedCorners}" Grid.Column="6" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Sklad" Background="Orange" Click="bt_WarehouseManagement_Click"></Button>
-        <Button x:Name="bt_PurchaseHistory" Style="{DynamicResource RoundedCorners}" Grid.Column="7" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Historie" Background="Orange" Click="bt_PurchaseHistory_Click"></Button>
+        <Button Focusable="False" x:Name="bt_Help" Style="{DynamicResource RoundedCorners}" Grid.Column="5" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Pomoc" Background="Orange" Click="bt_Help_Click"></Button>
+        <Button Focusable="False" x:Name="bt_WarehouseManagement" Style="{DynamicResource RoundedCorners}" Grid.Column="6" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Sklad" Background="Orange" Click="bt_WarehouseManagement_Click"></Button>
+        <Button Focusable="False" x:Name="bt_PurchaseHistory" Style="{DynamicResource RoundedCorners}" Grid.Column="7" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Grid.Row="8" Content="Historie" Background="Orange" Click="bt_PurchaseHistory_Click"></Button>
 
         <!--MAIN LIST VIEW - list of items currently being purchased-->
         <ListView Margin="5" x:Name="boughtItems" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
@@ -128,7 +128,7 @@
                     <GridViewColumn Header="Položka" Width="200" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Počet" Width="80" DisplayMemberBinding="{Binding Quantity}"/>
                     <GridViewColumn Header="Cena ks" Width="75" DisplayMemberBinding="{Binding Price}" />
-                    <GridViewColumn Header="Cena clk" Width="75" DisplayMemberBinding="{Binding PriceAll}" />
+                    <GridViewColumn Header="Cena součet" Width="75" DisplayMemberBinding="{Binding PriceAll}" />
                 </GridView>
             </ListView.View>
         </ListView>

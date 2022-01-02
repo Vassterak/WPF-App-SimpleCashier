@@ -34,6 +34,7 @@ namespace pokladnaInitial
         private void ScreenKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             string input = null;
+
             if (readNewBarcode)
             {
                 textCleared.Content = "";

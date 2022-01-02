@@ -8,13 +8,13 @@
         Title="Sklad" Height="600" Width="900" MinWidth="900" MinHeight="450" SizeChanged="Window_SizeChanged" Initialized="Window_Initialized" ContentRendered="Window_ContentRendered" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="73*"/>
-            <ColumnDefinition Width="67*"/>
-            <ColumnDefinition Width="13*"/>
-            <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -44,31 +44,40 @@
                 <Grid Background="#FFE5E5E5"/>
             </Expander>
         </ListView>
-        <GroupBox Grid.Row="7" Grid.ColumnSpan="7" Grid.RowSpan="3" x:Name="AddNewProductBox" Header="Přidej novo položku do skladu" Margin="0,0,0,43">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel x:Name="sp_barcode" Margin="5">
-                    <Label Content="Barcode" />
-                    <TextBox Text="Vlož nový barcode"/>
+        <GroupBox Grid.Row="7" Grid.ColumnSpan="7" Grid.RowSpan="3" x:Name="AddNewProductBox" Header="Přidej novou položku do skladu" Margin="0,0,0,43">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Height="80">
+                    <StackPanel x:Name="sp_barcode" Margin="5">
+                        <Label Content="Barcode" />
+                        <TextBox Text="Vlož nový barcode"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp_name" Margin="5">
+                        <Label Content="Název položky" />
+                        <TextBox Text="Vlož název položky"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp_quantity" Margin="5">
+                        <Label Content="Počet na skladě" />
+                        <TextBox Text="zade počet ks"/>
+                    </StackPanel>
+                    <StackPanel x:Name="sp_price" Margin="5">
+                        <Label Content="Cena za kus" />
+                        <TextBox Text="Zadej cenu" />
+                    </StackPanel>
+                    <StackPanel x:Name="sp_isAvailable" Margin="5">
+                        <Label Content="Je prodejné?" />
+                        <ComboBox x:Name="comboxBox_isAvailable">
+                            <ComboBoxItem  IsSelected="True">Ano</ComboBoxItem>
+                            <ComboBoxItem>Ne</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel x:Name="sp_name" Margin="5">
-                    <Label Content="Název položky" />
-                    <TextBox Text="Vlož název položky"/>
-                </StackPanel>
-                <StackPanel x:Name="sp_quantity" Margin="5">
-                    <Label Content="Počet na skladě" />
-                    <TextBox Text="zade počet ks"/>
-                </StackPanel>
-                <StackPanel x:Name="sp_price" Margin="5">
-                    <Label Content="Cena za kus" />
-                    <TextBox Text="Zadej cenu" />
-                </StackPanel>
-                <StackPanel x:Name="sp_isAvailable" Margin="5">
-                    <Label Content="Je prodejné?" />
-                    <TextBox Text="ano/ne"/>
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="bt_action" Background="LightGreen" Content="Přidat novou položku" Click="bt_action_Click"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <Label Grid.Row="7" ></Label>
+        <Button x:Name="bt_editItem" Grid.Row="9" Grid.Column="3" Margin="10" Content="Editovat položky" Background="LightBlue" Click="bt_editItem_Click"/>
+        <Button x:Name="bt_addNewItem" Visibility="Hidden" Grid.Row="9" Grid.Column="3" Margin="10" Content="Přidávat položky" Background="LightBlue" Click="bt_addNewItem_Click"/>
 
     </Grid>
 </Window>

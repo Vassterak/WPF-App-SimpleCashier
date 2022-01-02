@@ -21,9 +21,7 @@ namespace pokladnaInitial
     /// </summary>
     public partial class ManageProducts : Window
     {
-        List<Product> products;
         double[] colSize = new double[5];
-        bool isWindowLoaded = false;
 
         public ManageProducts()
         {
@@ -47,7 +45,6 @@ namespace pokladnaInitial
             }
             
             //itemsInWareHouse.ItemsSource = products; //add list to listviewer
-            isWindowLoaded = true;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -81,6 +78,21 @@ namespace pokladnaInitial
             sp_quantity.Width = groubBoxWidth * colSize[2];
             sp_price.Width = groubBoxWidth * colSize[3];
             sp_isAvailable.Width = groubBoxWidth * colSize[4];
+        }
+
+        private void bt_editItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_addNewItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_action_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
