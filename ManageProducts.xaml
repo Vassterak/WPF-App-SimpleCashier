@@ -49,19 +49,19 @@
                 <StackPanel Orientation="Horizontal" Height="80">
                     <StackPanel x:Name="sp_barcode" Margin="5">
                         <Label Content="Barcode" />
-                        <TextBox Text="Vlož nový barcode"/>
+                        <TextBox x:Name="tb_barcode" Text="Vlož nový barcode" GotFocus="tb_barcode_GotFocus" GotMouseCapture="tb_barcode_GotMouseCapture"/>
                     </StackPanel>
                     <StackPanel x:Name="sp_name" Margin="5">
                         <Label Content="Název položky" />
-                        <TextBox Text="Vlož název položky"/>
+                        <TextBox x:Name="tb_name" Text="Vlož název položky" GotFocus="tb_name_GotFocus" GotMouseCapture="tb_name_GotMouseCapture"/>
                     </StackPanel>
                     <StackPanel x:Name="sp_quantity" Margin="5">
                         <Label Content="Počet na skladě" />
-                        <TextBox Text="zade počet ks"/>
+                        <TextBox x:Name="tb_quantity" Text="zade počet ks" GotFocus="tb_quantity_GotFocus" GotMouseCapture="tb_quantity_GotMouseCapture"/>
                     </StackPanel>
                     <StackPanel x:Name="sp_price" Margin="5">
                         <Label Content="Cena za kus" />
-                        <TextBox Text="Zadej cenu" />
+                        <TextBox x:Name="tb_price" Text="Zadej cenu" GotFocus="tb_price_GotFocus" GotMouseCapture="tb_price_GotMouseCapture"/>
                     </StackPanel>
                     <StackPanel x:Name="sp_isAvailable" Margin="5">
                         <Label Content="Je prodejné?" />

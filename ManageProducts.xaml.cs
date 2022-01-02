@@ -22,6 +22,7 @@ namespace pokladnaInitial
     public partial class ManageProducts : Window
     {
         double[] colSize = new double[5];
+        bool isInEditMode = false;
 
         public ManageProducts()
         {
@@ -82,17 +83,73 @@ namespace pokladnaInitial
 
         private void bt_editItem_Click(object sender, RoutedEventArgs e)
         {
+            //UI changes
+            bt_editItem.Visibility = Visibility.Hidden;
+            bt_addNewItem.Visibility = Visibility.Visible;
+            AddNewProductBox.Header = "Uprav existující položku";
+            bt_action.Content = "Uložit upravení položky";
+
+            isInEditMode = true;
 
         }
 
         private void bt_addNewItem_Click(object sender, RoutedEventArgs e)
         {
+            //UI changes
+            bt_editItem.Visibility = Visibility.Visible;
+            bt_addNewItem.Visibility = Visibility.Hidden;
+            AddNewProductBox.Header = "Přidej novou položku do skladu";
+            bt_action.Content = "Uložit novou položku";
 
+            isInEditMode = false;
         }
 
         private void bt_action_Click(object sender, RoutedEventArgs e)
         {
-
+            (sender as TextBox).SelectAll();
         }
+
+        private void tb_barcode_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_name_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_quantity_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_price_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_price_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_quantity_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_name_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+        private void tb_barcode_GotMouseCapture(object sender, MouseEventArgs e)
+        {
+            (sender as TextBox).SelectAll();
+        }
+
+
+        //A dumb way how to do it, but I do not have a time to find a better solution that works as well as this
     }
 }
