@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="ManageProducts" Height="450" Width="800">
+        Title="ManageProducts" Height="450" Width="800" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <!--Show current items in store-->
-        <ListView Margin="5" x:Name="boughtItems" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
+        <ListView Margin="5" x:Name="itemsInWareHouse" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="8">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Barcode" Width="200" DisplayMemberBinding="{Binding Name}" />

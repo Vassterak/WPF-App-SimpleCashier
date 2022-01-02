@@ -25,7 +25,7 @@ namespace pokladnaInitial
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            DatabaseConnection.ConnectToDatabase();
         }
 
         private void ScreenKeyDown(object sender, KeyEventArgs e)
@@ -90,6 +90,40 @@ namespace pokladnaInitial
             gView.Columns[1].Width = workingWidth * col2;
             gView.Columns[2].Width = workingWidth * col3;
             gView.Columns[3].Width = workingWidth * col4;
+        }
+
+        private void bt_WarehouseManagement_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_Help_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_PurchaseHistory_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void bt_RemoveLatestItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Bt_MinusOneQuantity_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_BuyOrder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt_CancelOrder_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 
