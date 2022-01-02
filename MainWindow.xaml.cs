@@ -24,7 +24,7 @@ namespace pokladnaInitial
     {
         List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
         bool readNewBarcode = false;
-        float totalPrice = 0f;
+        float totalPriceOfPurchase = 0f;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -108,17 +108,21 @@ namespace pokladnaInitial
                 {
                     boughtProducts.Insert(0, new BoughtProduct { Barcode = reader.GetString(0), Name = reader.GetString(1), Price = reader.GetFloat(2), Quantity = 1, TotalPrice = 1 * reader.GetFloat(2)}); //add to list
                     boughtItems.ItemsSource = boughtProducts;
+                    currentItemDisplayed.Content = reader.GetString(1);
+                    quantityInWareHouse.Content = reader.GetInt32(3).ToString() + " ks";
+                    totalPriceLabel.Content = GetCompletePrice().ToString() + " kč";
                     item++;
                 }
                 if (item <= 0)
                     throw new Exception();
                 boughtItems.Items.Refresh();
             }
+
             catch (Exception)
             {
                 System.Windows.MessageBox.Show($"Poslední naskenované zboží se nenachází v databázi!\nKód: "+ barcode);
             }
-        }
+}
 
         private void EditQuantity(int quantity)
         {
@@ -129,7 +133,17 @@ namespace pokladnaInitial
                 boughtProducts[0].TotalPrice = quantity * boughtProducts[0].Price;
                 boughtItems.ItemsSource = boughtProducts;
                 boughtItems.Items.Refresh();
+                totalPriceLabel.Content = GetCompletePrice().ToString() + " kč";
             }
+        }
+
+        private float GetCompletePrice()
+        {
+            float actualPrice = 0;
+            foreach (var item in boughtProducts)
+                actualPrice += item.TotalPrice;
+
+            return actualPrice;
         }
 
 
@@ -153,7 +167,9 @@ namespace pokladnaInitial
         }
         private void bt_RemoveLatestItem_Click(object sender, RoutedEventArgs e)
         {
-
+            boughtProducts.Remove(boughtProducts[0]);
+            boughtItems.ItemsSource = boughtProducts;
+            boughtItems.Items.Refresh();
         }
 
         private void Bt_MinusOneQuantity_Click(object sender, RoutedEventArgs e)
@@ -168,7 +184,9 @@ namespace pokladnaInitial
 
         private void bt_CancelOrder_Click(object sender, RoutedEventArgs e)
         {
-
+            boughtProducts.Clear();
+            boughtItems.Items.Clear();
+            boughtItems.Items.Refresh();
         }
 
         //---------------------------------------------------Events-----------------------------

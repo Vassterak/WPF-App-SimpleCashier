@@ -92,20 +92,20 @@
 
         <!--Current item-->
         <Label Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Aktuální položka:"></Label>
-        <Label Grid.Column="6" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" FontWeight="Bold" Content="[Název položky]"></Label>
+        <Label x:Name="currentItemDisplayed" Grid.Column="6" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" FontWeight="Bold" Content="[Název položky]"></Label>
 
         <!--Left items in warehouse-->
         <Label Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Zbývá kusů na skladě:"></Label>
-        <Label Grid.Column="7" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" FontWeight="Bold" Content="[20 ks]"></Label>
+        <Label x:Name="quantityInWareHouse" Grid.Column="7" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" FontWeight="Bold" Content="[0 ks]"></Label>
 
         <!--Actions for current item-->
         <Label Grid.Column="5" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Content="Akce:"></Label>
-        <Button Focusable="False" x:Name="bt_RemoveLatestItem"  Grid.Column="6" Grid.Row="3" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
-        <Button Focusable="False" x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="3" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>
+        <Button Focusable="False" x:Name="bt_RemoveLatestItem" Grid.ColumnSpan="2" Grid.Column="6" Grid.Row="3" Style="{DynamicResource RoundedCorners}" Margin="8,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="Odstanit poslední položku" Background="LightBlue" Click="bt_RemoveLatestItem_Click"></Button>
+        <!--<Button Focusable="False" x:Name="Bt_MinusOneQuantity"  Grid.Column="7" Grid.Row="3" Style="{DynamicResource RoundedCorners}" Margin="10,0" VerticalAlignment="Center" FontSize="{StaticResource FontSize1}" Content="-1 z počtu" Background="LightBlue" Click="Bt_MinusOneQuantity_Click"></Button>-->
 
         <!--Total price-->
         <Label Grid.Column="5" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="{StaticResource FontSize1}" Grid.ColumnSpan="2" Content="Cena zboží celkem:"></Label>
-        <Label Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Content="[5 000,20 kč]" FontWeight="Bold"></Label>
+        <Label x:Name="totalPriceLabel" Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="{StaticResource FontSize1}" Content="[0 kč]" FontWeight="Bold"></Label>
 
         <!--Pay / Cancel - buttons-->
         <Button Focusable="False" x:Name="bt_BuyOrder"  Style="{DynamicResource RoundedCorners}" Grid.Column="5" Grid.ColumnSpan="2" Margin="10,0" VerticalAlignment="Center" FontSize="26" Grid.Row="6" Content="Zaplatit" Background="LightGreen" Click="bt_BuyOrder_Click"></Button>
