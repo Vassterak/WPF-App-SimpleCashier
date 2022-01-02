@@ -198,6 +198,11 @@ namespace pokladnaInitial
             Trace.WriteLine("Vyvořena historie nákupu");
         }
 
+        private void CreateReceipe()
+        {
+            
+        }
+
 
         //----------------------------------------------------Buttons-------------------
         private void bt_WarehouseManagement_Click(object sender, RoutedEventArgs e)
