@@ -66,7 +66,7 @@ namespace pokladnaInitial
                             try
                             {
                                 System.Windows.MessageBox.Show($"Zákazníkovy je potřeba vrátit z částky {float.Parse(textCleared.Content.ToString())} Kč -> {float.Parse(textCleared.Content.ToString()) - GetCompletePrice()} Kč.");
-
+                                UpdateQuantityInDB();
                             }
                             catch (Exception)
                             {
@@ -157,6 +157,28 @@ namespace pokladnaInitial
 
             return actualPrice;
         }
+        private void UpdateQuantityInDB()
+        {
+            var sql = "";
+            SQLiteDataReader reader;
+            int currentQuantity = 0;
+            foreach (var item in boughtProducts)
+            {
+                sql = $"SELECT * FROM Products WHERE id = '{item.Barcode}'";
+                DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
+                reader = DatabaseConnection.command.ExecuteReader();
+                while (reader.Read())
+                {
+                    currentQuantity = reader.GetInt32(3);
+                }
+
+                sql = $"UPDATE Products SET quantity = {currentQuantity - item.Quantity} WHERE id = '{item.Barcode}'";
+                DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
+                reader = DatabaseConnection.command.ExecuteReader();
+            }
+
+            Trace.WriteLine("Položky byli úspěšně odečteny ze skladu");
+        }
 
 
         //----------------------------------------------------Buttons-------------------
@@ -191,11 +213,13 @@ namespace pokladnaInitial
 
         }
 
+
         private void bt_CancelOrder_Click(object sender, RoutedEventArgs e)
         {
             boughtProducts.Clear();
             boughtItems.Items.Refresh();
             isInPuchasedMode = false;
+            howMuchFromCustomer.Visibility = Visibility.Hidden;
         }
 
         //---------------------------------------------------Events-----------------------------
