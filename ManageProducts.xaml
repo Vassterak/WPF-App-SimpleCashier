@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="Sklad" Height="600" Width="900" MinWidth="900" MinHeight="450" SizeChanged="Window_SizeChanged" Initialized="Window_Initialized" ContentRendered="Window_ContentRendered" Loaded="Window_Loaded">
+        Title="Sklad" Height="600" Width="900" MinWidth="900" MinHeight="450" SizeChanged="Window_SizeChanged" Initialized="Window_Initialized" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <!--Show current items in store-->
-        <ListView Margin="5,5,5,5" x:Name="itemsInWareHouse" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="7">
+        <ListView Margin="5,5,5,5" x:Name="itemsInWareHouse" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="7" SelectionChanged="itemsInWareHouse_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Barcode" Width="200" DisplayMemberBinding="{Binding Barcode}" />

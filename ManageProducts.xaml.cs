@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,11 +47,6 @@ namespace pokladnaInitial
             }
             
             //itemsInWareHouse.ItemsSource = products; //add list to listviewer
-        }
-
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-
         }
 
         private void ColumnsSizes()
@@ -106,9 +102,65 @@ namespace pokladnaInitial
 
         private void bt_action_Click(object sender, RoutedEventArgs e)
         {
-            (sender as TextBox).SelectAll();
+            int quantity, isAvailable;
+            float price;
+
+            if (isInEditMode)
+            {
+
+            }
+
+            else
+            {
+                try
+                {
+                    //input protection against SQL injection should be implemented :) 
+                    quantity = int.Parse(tb_quantity.Text);
+                    tb_price.Text = tb_price.Text.Replace(',', '.'); //because in CZ there is comma insted of dot
+                    price = float.Parse(tb_price.Text, CultureInfo.InvariantCulture); //ahh
+                    isAvailable = (comboxBox_isAvailable.Text.Trim().ToLower() == "ano") ? 1 : 0;   
+                                                                                                                                                                            //f*cking shit is now working (horrible fix)
+                    if (InsertIntoDatabase($"INSERT INTO Products (id, title, price, quantity, isAvailable) values ('{tb_barcode.Text}', '{tb_name.Text}', {price.ToString().Replace(',','.')}, {quantity}, {isAvailable})"))
+                        MessageBox.Show($"Položka s názvem {tb_name.Text}. Byla úspěšně přidána");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show($"Došlo k chybě při pokusu o uložení nového produktu, prosím zkontrolujte si zda vaše vstupy jsou ve správném formátu.\nVstupy: {tb_barcode.Text}, {tb_name.Text}, {tb_price.Text}, {tb_quantity.Text}, {comboxBox_isAvailable.Text}");
+                }
+            }
         }
 
+        private bool InsertIntoDatabase(string sql)
+        {
+            DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
+
+            try
+            {
+                DatabaseConnection.command.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                Trace.WriteLine("Nastala chyba při vykonávání zápisu do databáze");
+                MessageBox.Show("Nastala chyba při vykonávání zápisu do databáze\nKód: " + sql);
+                return false;
+            }
+        }
+
+        private void itemsInWareHouse_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (isInEditMode) //get selected item in list only when edit mode is enabled
+            {
+                Product SelectedItem = (Product)itemsInWareHouse.SelectedItem;
+
+                if (SelectedItem != null)
+                    MessageBox.Show(SelectedItem.Name);
+            }
+        }
+
+
+        //A dumb way how to do it, but I do not have a time to find a better solution that works as well as this
         private void tb_barcode_GotFocus(object sender, RoutedEventArgs e)
         {
             (sender as TextBox).SelectAll();
@@ -148,8 +200,5 @@ namespace pokladnaInitial
         {
             (sender as TextBox).SelectAll();
         }
-
-
-        //A dumb way how to do it, but I do not have a time to find a better solution that works as well as this
     }
 }
