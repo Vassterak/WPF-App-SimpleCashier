@@ -6,7 +6,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="Pokladna" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown" Loaded="Window_Loaded">
+        Title="Pokladna" Height="720" Width="1280" MinWidth="800" MinHeight="600" KeyDown="ScreenKeyDown" Loaded="Window_Loaded" SizeChanged="OnSizeChangedSpacing">
     <Window.Resources>
         <System:Double x:Key="FontSize1">18</System:Double>
 
@@ -66,7 +66,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid SizeChanged="BoughtProductsList">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -128,7 +128,7 @@
                     <GridViewColumn Header="Položka" Width="200" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Počet" Width="80" DisplayMemberBinding="{Binding Quantity}"/>
                     <GridViewColumn Header="Cena ks" Width="75" DisplayMemberBinding="{Binding Price}" />
-                    <GridViewColumn Header="Cena součet" Width="75" DisplayMemberBinding="{Binding PriceAll}" />
+                    <GridViewColumn Header="Cena součet" Width="75" DisplayMemberBinding="{Binding TotalPrice}" />
                 </GridView>
             </ListView.View>
         </ListView>

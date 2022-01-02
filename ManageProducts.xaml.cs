@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace pokladnaInitial
 {
-    /// <summary>
-    /// Interaction logic for ManageProducts.xaml
-    /// </summary>
     public partial class ManageProducts : Window
     {
         double[] colSize = new double[5];
@@ -46,8 +43,6 @@ namespace pokladnaInitial
                 itemsInWareHouse.Items.Insert(0,new Product { Barcode = reader.GetString(0), Name = reader.GetString(1), Price = reader.GetFloat(2), Quantity = reader.GetInt32(3), IsAvailable = Convert.ToBoolean(reader.GetByte(4)) }); //add to list
                 Trace.WriteLine($"Barcode: {reader.GetString(0)} | Name = { reader.GetString(1)} | Price = {reader.GetFloat(2)} | Quantity = {reader.GetInt32(3)} | IsAvailable = {reader.GetByte(4)}"); //show in output console
             }
-            
-            //itemsInWareHouse.ItemsSource = products; //add list to listviewer
         }
 
         private void ColumnsSizes()
