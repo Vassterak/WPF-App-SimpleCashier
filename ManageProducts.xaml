@@ -7,6 +7,37 @@
         mc:Ignorable="d"
         Title="ManageProducts" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Show current items in store-->
+        <ListView Margin="5" x:Name="boughtItems" Grid.Column="0" Grid.Row="0" Grid.RowSpan="7" Grid.ColumnSpan="5">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Barcode" Width="200" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Název" Width="40" DisplayMemberBinding="{Binding Count}"/>
+                    <GridViewColumn Header="Cena" Width="75" DisplayMemberBinding="{Binding Price}" />
+                    <GridViewColumn Header="kusů na skladě" Width="200" DisplayMemberBinding="{Binding Barcode}" />
+                    <GridViewColumn Header="Je prodejné?" Width="200" DisplayMemberBinding="{Binding IsAvailable}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

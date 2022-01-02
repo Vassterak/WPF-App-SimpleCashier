@@ -3,7 +3,7 @@ CREATE TABLE `Products` (
   `title` varchar(255),
   `price` float,
   `quantity` int,
-  `isAvaible` bool
+  `isAvailable` bool
 );
 
 CREATE TABLE `HistoryOfPurchases` (

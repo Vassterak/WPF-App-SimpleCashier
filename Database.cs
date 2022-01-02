@@ -16,18 +16,26 @@ namespace pokladnaInitial
 
         public static void CreateNewDatabase()
         {
-            SQLiteConnection.CreateFile($"db_shop.sqlite");
-            Console.WriteLine("Database has been created");
+            try
+            {
+                SQLiteConnection.CreateFile($"db_shop.sqlite");
+                Console.WriteLine("Database has been created");
+                CreateTablesInNewDatabase();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Nastala neočekávaná chyba, nelze vytvořit soubor s databází zkontrolujte zda má aplikace dostatečná opraávnění"); 
+            }
         }
 
         private static void CreateTablesInNewDatabase()
         {
-            sql = "CREATE TABLE `Products` (`id` varchar(255) PRIMARY KEY,`title` varchar(255),`price` float,`quantity` int,`isAvaible` bool)";
+            sql = "CREATE TABLE `Products` (`id` varchar(255) PRIMARY KEY,`title` varchar(255),`price` float,`quantity` int,`isAvailable` bool)";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
             Console.WriteLine("Products table has been created");
 
-            sql = "CREATE TABLE `HistoryOfPurchases` (`order_id` varchar(255),`product_id` varchar(255),`title` varchar(255),`price` float,`quantity` int,PRIMARY KEY(`order_id`, `product_id`))";
+            sql = "CREATE TABLE `HistoryOfPurchases` (`order_id` varchar(255),`product_id` varchar(255),`title` varchar(255),`price` float,`quantity` int,`timeOfPurchase` date,PRIMARY KEY(`order_id`, `product_id`))";
             command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();
             Console.WriteLine("HistoryOfPurchases table has been created");
@@ -54,7 +62,7 @@ namespace pokladnaInitial
                 DialogResult result = MessageBox.Show(message, title, buttons);
                 if (result == DialogResult.Yes)
                 {
-
+                    CreateNewDatabase();
                 }
                 else
                 {
