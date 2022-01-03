@@ -18,6 +18,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Data.SQLite;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 
 namespace pokladnaInitial
 {
@@ -25,11 +27,15 @@ namespace pokladnaInitial
     {
         List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
         StreamWriter sw;
+        ButtonAutomationPeer peerBuy, peerDelLast;
+        IInvokeProvider invokeProv;
         bool readNewBarcode = false, isInPuchasedMode = false;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DatabaseConnection.ConnectToDatabase();
+            peerBuy = new ButtonAutomationPeer(bt_BuyOrder);
+            peerDelLast = new ButtonAutomationPeer(bt_RemoveLatestItem);
         }
 
         //Parsing the input from barcode reader. With KeyEventArgs the language of keyboard doesnt matter
@@ -82,9 +88,15 @@ namespace pokladnaInitial
                     break;
 
                 case Key.Space:
-                    //Not used for now
+                    invokeProv = peerBuy.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                    invokeProv.Invoke();
                     break;
-                
+
+                case Key.Delete:
+                    invokeProv = peerDelLast.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+                    invokeProv.Invoke();
+                    break;
+
                 default:
                     input = e.Key.ToString(); //convert keyEvent to string
 
@@ -106,7 +118,6 @@ namespace pokladnaInitial
             }
             //Debug
             textCleared.Content += input;
-
         }
 
         private void AddItemToBoughtList(string barcode)
