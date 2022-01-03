@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,8 +24,8 @@ namespace pokladnaInitial
     public partial class MainWindow : Window
     {
         List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
+        StreamWriter sw;
         bool readNewBarcode = false, isInPuchasedMode = false;
-        string rawDataInput = "";
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -39,7 +40,6 @@ namespace pokladnaInitial
             if (readNewBarcode)
             {
                 textCleared.Content = "";
-                rawDataInput = "";
                 readNewBarcode = false;
             }
 
@@ -186,21 +186,39 @@ namespace pokladnaInitial
             var sql = "";
             SQLiteDataReader reader;
             Guid orderID = Guid.NewGuid();
-            DateTime todayDate = DateTime.Today;
-            string today = todayDate.ToString("d");
+            string today = DateTime.Now.ToString("MM.dd.yyyy HH-mm-ss");
+
+            //create new receipe file
+            string path = @"c:\Účtenky\" + today + ".txt";
+            //string path = @"c:\Účtenky\MyTest.txt";
+            using (sw = File.CreateText(path))
+            {
+                sw.WriteLine("");
+            }
+            //initial write
+            sw = new StreamWriter(path);
+            sw.WriteLine("==========Obchod s.r.o.==========");
+            sw.WriteLine("---------------------------------");
+            sw.WriteLine("  Název zboží  |  Cena za kus  |  počet kusů  |  Cena za všchny kusy");
 
             foreach (var item in boughtProducts)
             {
+                CreateReceipe(item, today, sw);
                 sql = $"INSERT INTO HistoryOfPurchases (order_id, product_id, title, price, quantity, timeOfPurchase) values ('{orderID}', '{item.Barcode}', '{item.Name}', {1}, {item.Quantity}, '{today}')";
                 DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
                 reader = DatabaseConnection.command.ExecuteReader();
             }
+            sw.WriteLine("---------------------------------");
+            sw.WriteLine($"Čas nákupu: {DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss")}");
+            sw.WriteLine($"Celková cena nákupu: {GetCompletePrice()} Kč");
             Trace.WriteLine("Vyvořena historie nákupu");
+            System.Windows.MessageBox.Show("Účtenka byla vytvořena");
+            sw.Close();
         }
 
-        private void CreateReceipe()
+        private void CreateReceipe(BoughtProduct product, string time, StreamWriter sw)
         {
-            
+            sw.WriteLine($"{product.Name} - {product.Price} kč - {product.Quantity} ks - {product.TotalPrice} kč celkem");
         }
 
 
