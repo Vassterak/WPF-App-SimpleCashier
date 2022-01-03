@@ -222,6 +222,8 @@ namespace pokladnaInitial
             sw.WriteLine("---------------------------------");
             sw.WriteLine($"Čas nákupu: {DateTime.Now.ToString("MM.dd.yyyy HH:mm:ss")}");
             sw.WriteLine($"Celková cena nákupu: {GetCompletePrice()} Kč");
+            sw.WriteLine("---------------------------------");
+            sw.WriteLine($"Číslo účtenky: {orderID}");
             Trace.WriteLine("Vyvořena historie nákupu");
             System.Windows.MessageBox.Show("Účtenka byla vytvořena");
             sw.Close();
