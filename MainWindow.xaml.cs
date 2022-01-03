@@ -215,7 +215,7 @@ namespace pokladnaInitial
             foreach (var item in boughtProducts)
             {
                 CreateReceipe(item, today, sw);
-                sql = $"INSERT INTO HistoryOfPurchases (order_id, product_id, title, price, quantity, timeOfPurchase) values ('{orderID}', '{item.Barcode}', '{item.Name}', {1}, {item.Quantity}, '{today}')";
+                sql = $"INSERT INTO HistoryOfPurchases (order_id, product_id, title, price, quantity, timeOfPurchase) values ('{orderID}', '{item.Barcode}', '{item.Name}', {float.Parse(item.Price.ToString().Replace(',','.'))}, {item.Quantity}, '{today}')";
                 DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
                 reader = DatabaseConnection.command.ExecuteReader();
             }
