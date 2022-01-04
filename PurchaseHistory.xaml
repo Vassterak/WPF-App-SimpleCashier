@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:pokladnaInitial"
         mc:Ignorable="d"
-        Title="PurchaseHistory" Height="450" Width="800">
+        Title="Historie prodejů" Height="450" Width="800" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Show current items in store-->
+        <ListView Margin="5,5,5,5" x:Name="receiptHistory" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" Grid.RowSpan="8">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Č. objednávky" Width="200" DisplayMemberBinding="{Binding OrderID}" />
+                    <GridViewColumn Header="Barcode položky" Width="200" DisplayMemberBinding="{Binding ProductID}" />
+                    <GridViewColumn Header="Název" Width="40" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="počet ks" Width="75" DisplayMemberBinding="{Binding Quantity}" />
+                    <GridViewColumn Header="Cena celkem" Width="75" DisplayMemberBinding="{Binding PriceTotal}" />
+                    <GridViewColumn Header="Datum prodeje" Width="200" DisplayMemberBinding="{Binding Date}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal"  Grid.Row="9" Grid.ColumnSpan="7">
+            <TextBox x:Name="tb_lookForOrder" Width="350" Height="30"/>
+            <Button Margin="5" Height="35" HorizontalAlignment="Center" Content="Hledej" Click="Button_Click"/>
+
+        </StackPanel>
+
     </Grid>
 </Window>

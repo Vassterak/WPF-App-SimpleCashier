@@ -23,4 +23,13 @@ namespace pokladnaInitial
         public int Quantity { get; set; }
         public float TotalPrice { get; set; }
     }
+    public class HistoryPurchase
+    {
+        public string OrderID { get; set; }
+        public string ProductID { get; set; }
+        public string Name { get; set; }
+        public float PriceTotal { get; set; }
+        public int Quantity { get; set; }
+        public string Date { get; set; }
+    }
 }
