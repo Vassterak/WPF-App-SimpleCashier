@@ -17,18 +17,24 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Data.SQLite;
+using System.IO;
+using System.Windows.Automation.Peers;
 
 namespace pokladnaInitial
 {
     public partial class MainWindow : Window
     {
         List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
+        StreamWriter sw;
+        ButtonAutomationPeer peerBuy, peerDelLast, peerNewItem;
+        IInvokeProvider invokeProv;
         bool readNewBarcode = false, isInPuchasedMode = false;
-        string rawDataInput = "";
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DatabaseConnection.ConnectToDatabase();
+            peerBuy = new ButtonAutomationPeer(bt_BuyOrder);
+            peerDelLast = new ButtonAutomationPeer(bt_RemoveLatestItem);
+            peerNewItem = new ButtonAutomationPeer(bt_CancelOrder);
         }
 
         //Parsing the input from barcode reader. With KeyEventArgs the language of keyboard doesnt matter
@@ -39,7 +45,6 @@ namespace pokladnaInitial
             if (readNewBarcode)
             {
                 textCleared.Content = "";
-                rawDataInput = "";
                 readNewBarcode = false;
             }
 
@@ -119,6 +124,20 @@ namespace pokladnaInitial
                 SQLiteDataReader reader = DatabaseConnection.command.ExecuteReader();
                 while (reader.Read())
                 {
+                    BoughtProduct result = boughtProducts.Find(x => x.Barcode == reader.GetString(0));
+
+                    if (result != null)
+                    {
+                        int index = boughtProducts.FindIndex(a => a.Barcode == reader.GetString(0));
+                        boughtProducts[index].Quantity += 1;
+                        boughtProducts[index].TotalPrice += boughtProducts[index].Price;
+                        boughtItems.ItemsSource = boughtProducts;
+                        boughtItems.Items.Refresh();
+                        totalPriceLabel.Content = GetCompletePrice().ToString() + " kč";
+                        item++;
+                        break;
+                    }
+
                     boughtProducts.Insert(0, new BoughtProduct { Barcode = reader.GetString(0), Name = reader.GetString(1), Price = reader.GetFloat(2), Quantity = 1, TotalPrice = 1 * reader.GetFloat(2)}); //add to list
                     boughtItems.ItemsSource = boughtProducts;
                     currentItemDisplayed.Content = reader.GetString(1);
@@ -186,21 +205,48 @@ namespace pokladnaInitial
             var sql = "";
             SQLiteDataReader reader;
             Guid orderID = Guid.NewGuid();
-            DateTime todayDate = DateTime.Today;
-            string today = todayDate.ToString("d");
+            string today = DateTime.Now.ToString("dd.MM.yyyy HH-mm-ss");
+
+            //create new receipe file
+            string path = @"c:\Účtenky\" + today + ".txt";
+            //string path = @"c:\Účtenky\MyTest.txt";
+            using (sw = File.CreateText(path))
+            {
+            }
+            //initial write
+            sw = new StreamWriter(path);
+            sw.WriteLine("====================================Obchod s.r.o.=================================");
+            sw.WriteLine("----------------------------------------------------------------------------------");
+            sw.WriteLine("           Název zboží           | Cena za kus | počet kusů | Cena za všechny kusy");
 
             foreach (var item in boughtProducts)
             {
-                sql = $"INSERT INTO HistoryOfPurchases (order_id, product_id, title, price, quantity, timeOfPurchase) values ('{orderID}', '{item.Barcode}', '{item.Name}', {1}, {item.Quantity}, '{today}')";
+                CreateReceipe(item, today, sw);
+                sql = $"INSERT INTO HistoryOfPurchases (order_id, product_id, title, price, quantity, timeOfPurchase) values ('{orderID}', '{item.Barcode}', '{item.Name}', '{item.Price} kč', {item.Quantity}, '{today}')";
+                System.Windows.MessageBox.Show(sql);
                 DatabaseConnection.command = new SQLiteCommand(sql, DatabaseConnection.m_dbConnection);
                 reader = DatabaseConnection.command.ExecuteReader();
             }
+            sw.WriteLine("----------------------------------------------------------------------------------");
+            sw.WriteLine($"Čas nákupu: {DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")}");
+            sw.WriteLine($"Celková cena nákupu: {GetCompletePrice()} Kč");
+            sw.WriteLine("----------------------------------------------------------------------------------");
+            sw.WriteLine($"Číslo účtenky: {orderID}");
             Trace.WriteLine("Vyvořena historie nákupu");
+            System.Windows.MessageBox.Show("Účtenka byla vytvořena");
+            invokeProv = peerNewItem.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+            invokeProv.Invoke();
+            sw.Close();
         }
-
-        private void CreateReceipe()
+        private void CreateReceipe(BoughtProduct product, string time, StreamWriter sw)
         {
-            
+            string spacign = "", spacing2 = "", spacing3 = "", spacing4 = "";
+            spacign += spacign.PadRight(33 - product.Name.Length);
+            spacing2 += spacing2.PadRight(13 - product.Price.ToString().Length);
+            spacing3 += spacing3.PadRight(12 - product.Quantity.ToString().Length);
+            spacing4 += spacing4.PadRight(12 - product.TotalPrice.ToString().Length);
+
+            sw.WriteLine($"{product.Name}{spacign} {spacing2}{product.Price}   {product.Quantity}{spacing3} {product.TotalPrice}");
         }
 
 
