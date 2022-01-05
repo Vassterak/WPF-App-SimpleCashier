@@ -26,7 +26,7 @@ namespace pokladnaInitial
 
             catch (Exception e)
             {
-                Trace.WriteLine(e);
+                System.Windows.Forms.MessageBox.Show(e.ToString());
 
                 string message = "Nepodařilo se nalést databázový soubor: 'db_shop.sqlite' Chcete vytvořit novou prázdnou databázi? ";
                 string title = "Chyba databáze";
