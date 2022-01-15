@@ -26,10 +26,10 @@ namespace pokladnaInitial
     public partial class MainWindow : Window
     {
         List<BoughtProduct> boughtProducts = new List<BoughtProduct>();
-    StreamWriter sw;
-    ButtonAutomationPeer peerBuy, peerDelLast, peerNewItem;
-    IInvokeProvider invokeProv;
-    bool readNewBarcode = false, isInPuchasedMode = false;
+        StreamWriter sw;
+        ButtonAutomationPeer peerBuy, peerDelLast, peerNewItem;
+        IInvokeProvider invokeProv;
+        bool readNewBarcode = false, isInPuchasedMode = false;
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
@@ -218,9 +218,7 @@ namespace pokladnaInitial
         //create new receipe file
         string path = @"c:\Účtenky\" + today + ".txt";
         //string path = @"c:\Účtenky\MyTest.txt";
-        using (sw = File.CreateText(path))
-        {
-        }
+        using (sw = File.CreateText(path)){}
         //initial write
         sw = new StreamWriter(path);
         sw.WriteLine("====================================Obchod s.r.o.=================================");
